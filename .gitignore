@@ -87,3 +87,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# temp file or directory
+data/word*
+data/quora*
+data/y*
