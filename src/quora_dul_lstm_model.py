@@ -30,7 +30,7 @@ def model(data_file):
 
     # 数据预处理，十折交叉法
     print "data pre-processing"
-    ques_pairs = data_process.parse_quoar_dul_data(data_file)[0:500]
+    ques_pairs = data_process.parse_quoar_dul_data(data_file)[0:3000]
     word2idx = data_process.build_vocab(ques_pairs)
     vocab_size = len(word2idx) + 1
     seq_maxlen = data_process.get_seq_maxlen(ques_pairs)
@@ -142,5 +142,6 @@ def model(data_file):
     print "After all the result acc:", sum_acc / 10
 
 
+# 基本结果acc为0.87866
 if __name__ == '__main__':
     model("../data/quora_duplicate_questions.tsv")
