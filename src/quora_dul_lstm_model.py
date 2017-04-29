@@ -28,7 +28,7 @@ def model(data_file):
     """ 使用lstm模型，判断一对问题是否是重复的
     """
 
-    # 数据预处理，十折交叉法
+    # 数据预处理
     print "data pre-processing"
     ques_pairs = data_process.parse_quoar_dul_data(data_file)[0:3000]
     word2idx = data_process.build_vocab(ques_pairs)
@@ -86,6 +86,7 @@ def model(data_file):
         loss="categorical_crossentropy",
         metrics=["accuracy"])
 
+    # 10折交叉
     kf = KFold(n_splits=10)
     i = 0
     sum_acc = 0.0
