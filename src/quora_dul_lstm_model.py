@@ -38,16 +38,18 @@ def model(data_file):
         ques_pairs, word2idx, seq_maxlen)
 
     # 计算embeding 初始weight；
+    # 训练处word2vec模型，用n维向量表示一个词
     w2v_embedding_model = word2vec_pretrain.train_word2vec(
         ques_pairs, num_features=EMBED_DIM, min_word_count=1, context=5)
     embedding_weights = np.zeros((vocab_size, EMBED_DIM))
+    # 将我们创建出的词表中每个文本词替换为词向量
     for word, index in word2idx.iteritems():
         if word in w2v_embedding_model:
             embedding_weights[index, :] = w2v_embedding_model[word]
         else:
             embedding_weights[index, :] = np.random.uniform(
                 -0.25, 0.25, w2v_embedding_model.vector_size)
-    # 建立模型；
+    # 建立lstm模型；
     print("Building model...")
     ques1_enc = Sequential()
     ques1_enc.add(
@@ -120,6 +122,7 @@ def model(data_file):
         print("predict...")
         y_test_pred = model.predict_classes(
             [x_ques1test, x_ques2test], batch_size=BATCH_SIZE)
+        print y_test_pred
         data_process.pred_save("../data/y_test_{:d}.pred".format(i),
                                y_test_pred, ytest, pidstest)
 

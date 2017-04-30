@@ -76,13 +76,19 @@ def vectorize_ques_pair(ques_pairs, word2idx, seq_maxlen):
     y = []
     for pair in ques_pairs:
         pids.append(pair[0])
+        # 每个问题的单词由单词表中的序号代替——句子转化成数组
+        # 所有问题1形成一个矩阵
         x_ques1.append([word2idx[w] for w in pair[1]])
+        # 所有问题2形成一个矩阵
         x_ques2.append([word2idx[w] for w in pair[2]])
+        # 将每对问题的结果转换成numpy中的array，加快运算
         y.append((np.array([0, 1]) if pair[3] == 1 else np.array([1, 0])))
 
     pids = np.array(pids)
+    # 由于每个问题长度不同，为了形成每行都等长的矩阵，需要补0操作
     x_ques1 = pad_sequences(x_ques1, maxlen=seq_maxlen)
     x_ques2 = pad_sequences(x_ques2, maxlen=seq_maxlen)
+    # 形成每对问题是否相同的，结果矩阵
     y = np.array(y)
 
     return pids, x_ques1, x_ques2, y
